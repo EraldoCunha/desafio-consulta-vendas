@@ -2,6 +2,7 @@ package com.devsuperior.dsmeta.services;
 
 import com.devsuperior.dsmeta.dto.SaleMinDTO;
 import com.devsuperior.dsmeta.dto.SaleReportDTO;
+import com.devsuperior.dsmeta.dto.SaleSummaryDTO;
 import com.devsuperior.dsmeta.entities.Sale;
 import com.devsuperior.dsmeta.repositories.SaleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,5 +35,13 @@ public class SaleService {
         LocalDate today = maxDate.equals("") ? LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault()) : LocalDate.parse(maxDate);
 
         return repository.searchReports(result, today, name, pageable);
+    }
+
+    public Page<SaleSummaryDTO> findSummaries(String minDate, String maxDate, Pageable pageable) {
+
+        LocalDate result = minDate.equals("") ? minhaData.minusYears(1L) : LocalDate.parse(minDate);
+        LocalDate today = maxDate.equals("") ? LocalDate.ofInstant(Instant.now(), ZoneId.systemDefault()) : LocalDate.parse(maxDate);
+
+        return repository.searchSummary(result, today, pageable);
     }
 }
